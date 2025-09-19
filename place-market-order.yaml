@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  title: Market Orders
+  description: API for market order placement
+  version: "1"
+servers:
+- url: https://www.litefinance.org
+  description: SwaggerHub API Auto Mocking
+paths:
+  /orders:
+    post:
+      tags:
+      - Marker order
+      summary: Create a new market order
+      parameters:
+      - name: Authorization
+        in: header
+        description: authorization tocken
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/orders"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ordersResponse"
+        "400":
+          description: invalid request
+        "403":
+          description: access denied
+        "500":
+          description: Internal Server Error
+components:
+  schemas:
+    ordersResponse:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          description: OrderId
+    orders:
+      required:
+      - amount
+      - direction
+      - instrument
+      type: object
+      properties:
+        instrument:
+          type: string
+          description: instrument
+        direction:
+          type: string
+          description: direction
+        amount:
+          type: integer
+          description: amount
